@@ -26,21 +26,21 @@ jobs:
         with:
           node-version: 20
           cache: npm
-          cache-dependency-path: site/package-lock.json
+          cache-dependency-path: Desktop/vscode claude code portfolio/site/package-lock.json
 
       - name: Install dependencies
         run: npm ci
-        working-directory: site
+        working-directory: "Desktop/vscode claude code portfolio/site"
 
       - name: Build
         run: npm run build
-        working-directory: site
+        working-directory: "Desktop/vscode claude code portfolio/site"
 
       - uses: actions/configure-pages@v4
 
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: site/out
+          path: "Desktop/vscode claude code portfolio/site/out"
 
       - id: deployment
         uses: actions/deploy-pages@v4
