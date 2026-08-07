@@ -17,6 +17,10 @@
 /.next/
 /out/
 
+# generated from assets/thumbnails-src/ by scripts/optimize-images.mjs
+/public/work/
+/lib/work-images.generated.json
+
 # production
 /build
 

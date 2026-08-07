@@ -1,77 +1,108 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { HeroBackground } from "@/components/ui/hero-background";
+import { MarqueeRow } from "@/components/ui/marquee-row";
 
-function Hero() {
-  const [titleNumber, setTitleNumber] = useState(0);
-  const titles = useMemo(
-    () => ["impactantes", "creativas", "únicas", "profesionales", "memorables"],
-    []
+const EASE_OUT = [0.23, 1, 0.32, 1] as const;
+
+function HeroMarquee({ images, reverse }: { images: string[]; reverse?: boolean }) {
+  return (
+    <MarqueeRow
+      images={images}
+      reverse={reverse}
+      speed={30}
+      fadeDelay={1}
+      renderTile={(src, i) => (
+        <div
+          key={i}
+          className="relative h-20 w-36 flex-none overflow-hidden border border-[var(--border)] bg-black/40 shadow-[0_8px_24px_rgba(0,0,0,0.5)] sm:h-24 sm:w-44 md:h-32 md:w-56"
+        >
+          <div
+            className="absolute -inset-px bg-cover bg-center"
+            style={{ backgroundImage: `url("${src}")` }}
+          />
+        </div>
+      )}
+    />
   );
+}
 
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      setTitleNumber((n) => (n === titles.length - 1 ? 0 : n + 1));
-    }, 3000);
-    return () => clearTimeout(timeoutId);
-  }, [titleNumber, titles]);
+const MARQUEE_ROW_COUNT = 4;
+
+function splitIntoRows(images: string[], rowCount: number): string[][] {
+  const rows: string[][] = Array.from({ length: rowCount }, () => []);
+  images.forEach((src, i) => rows[i % rowCount].push(src));
+  return rows;
+}
+
+function Hero({ images = [] }: { images?: string[] }) {
+  const rows = splitIntoRows(images, MARQUEE_ROW_COUNT);
 
   return (
-    <div className="relative z-10 flex flex-col items-center justify-center h-full px-4 text-center">
+    <>
+      <HeroBackground />
+      <div className="relative z-10 flex min-h-screen flex-col items-center justify-center px-4 pt-28 pb-10 text-center">
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7, delay: 0.3 }}
+        initial={{ opacity: 0, transform: "translateY(24px)" }}
+        animate={{ opacity: 1, transform: "translateY(0px)" }}
+        transition={{ duration: 0.7, delay: 0.15, ease: EASE_OUT }}
       >
-        <h1 className="text-5xl sm:text-7xl md:text-9xl lg:text-[11rem] font-black tracking-tighter text-white leading-none">
-          Miniaturas
+        <span className="inline-flex items-center gap-2 text-xs font-medium tracking-[0.3em] text-[var(--fg-subtle)] uppercase">
+          <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)]" aria-hidden />
+          Editor de miniaturas para YouTube
+        </span>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, transform: "translateY(28px)" }}
+        animate={{ opacity: 1, transform: "translateY(0px)" }}
+        transition={{ duration: 0.7, delay: 0.28, ease: EASE_OUT }}
+        className="mt-5 max-w-4xl"
+      >
+        {/* Placeholder headline — swap for the real pitch */}
+        <h1 className="text-display text-[clamp(2.25rem,6.4vw,5.5rem)]">
+          <span className="text-[var(--accent)]">Mereces ser visto.</span>
         </h1>
-        <div className="relative text-4xl sm:text-5xl md:text-7xl lg:text-8xl h-[1.2em] overflow-hidden -mt-2">
-          {titles.map((title, index) => (
-            <motion.span
-              key={index}
-              className="absolute inset-0 flex items-center justify-center font-black tracking-tighter"
-              style={{
-                background: "linear-gradient(135deg, #a3e635 0%, #4ade80 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}
-              initial={{ opacity: 0, y: 160 }}
-              transition={{ type: "spring", stiffness: 55, damping: 18 }}
-              animate={
-                titleNumber === index
-                  ? { y: 0, opacity: 1 }
-                  : { y: titleNumber > index ? -160 : 160, opacity: 0 }
-              }
-            >
-              {title}
-            </motion.span>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, transform: "translateY(20px)" }}
+        animate={{ opacity: 1, transform: "translateY(0px)" }}
+        transition={{ duration: 0.7, delay: 0.4, ease: EASE_OUT }}
+        className="mt-6 max-w-xl"
+      >
+        {/* Placeholder subhead — swap for the real pitch */}
+        <p className="text-body text-base sm:text-lg">
+          Diseño de miniaturas para creadores alrededor de todo el mundo
+          
+        </p>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, transform: "translateY(16px)" }}
+        animate={{ opacity: 1, transform: "translateY(0px)" }}
+        transition={{ duration: 0.7, delay: 0.52, ease: EASE_OUT }}
+        className="mt-9 flex flex-wrap items-center justify-center gap-3"
+      >
+        <Button
+          variant="primary"
+          onClick={() => document.getElementById("contacto")?.scrollIntoView({ behavior: "smooth" })}
+        >
+          Contacto
+        </Button>
+      </motion.div>
+
+      {images.length > 0 && (
+        <div className="mt-10 flex w-full flex-col gap-2.5">
+          {rows.map((row, i) => (
+            <HeroMarquee key={i} images={row} reverse={i % 2 === 1} />
           ))}
         </div>
-      </motion.div>
-
-      <motion.p
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8, delay: 0.7 }}
-        className="text-lg md:text-xl text-gray-400 tracking-wide mt-6 max-w-md"
-      >
-        Miniaturas que generan clics
-      </motion.p>
-
-      {/* Scroll indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 1.2 }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-      >
-        <span className="text-[10px] uppercase tracking-[0.3em] text-gray-500">Scroll</span>
-        <div className="h-10 w-px bg-gradient-to-b from-[#a3e635]/60 to-transparent animate-pulse" />
-      </motion.div>
-    </div>
+      )}
+      </div>
+    </>
   );
 }
 

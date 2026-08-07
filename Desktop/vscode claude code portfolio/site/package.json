@@ -4,9 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "predev": "node scripts/optimize-images.mjs",
+    "prebuild": "node scripts/optimize-images.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "optimize-images": "node scripts/optimize-images.mjs",
     "deploy": "next build && npx gh-pages -d out --dotfiles"
   },
   "dependencies": {
@@ -29,7 +32,13 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.6",
     "gh-pages": "^6.3.0",
+    "sharp": "^0.35.3",
     "tailwindcss": "^4",
     "typescript": "^5"
+  },
+  "allowScripts": {
+    "sharp@0.35.3": true,
+    "sharp@0.34.5": true,
+    "unrs-resolver@1.11.1": true
   }
 }
