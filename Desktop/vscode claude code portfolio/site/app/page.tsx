@@ -3,6 +3,7 @@
 import { Hero } from "@/components/ui/animated-hero";
 import { SiteNav } from "@/components/ui/site-nav";
 import { ProcessSection } from "@/components/ui/process-section";
+import { FAQSection } from "@/components/ui/faq-section";
 import { StatsStrip } from "@/components/ui/stats-strip";
 import { CinematicFooter } from "@/components/ui/motion-footer";
 import workSlugs from "@/lib/work-images.generated.json";
@@ -25,6 +26,8 @@ export default function Home() {
       </section>
 
       <ProcessSection />
+
+      <FAQSection />
 
       <StatsStrip />
 

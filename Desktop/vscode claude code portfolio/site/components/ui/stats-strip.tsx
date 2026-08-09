@@ -19,7 +19,9 @@ export function StatsStrip() {
             delay={i * 0.06}
             className="flex flex-col items-center gap-2 py-10 text-center"
           >
-            <span className="text-heading text-4xl md:text-5xl">{stat.value}</span>
+            <span className="text-4xl text-[var(--accent)] md:text-5xl [font-family:var(--font-garamond)]">
+              {stat.value}
+            </span>
             <span className="text-body text-xs tracking-[0.2em] text-[var(--fg-subtle)] uppercase">
               {stat.label}
             </span>

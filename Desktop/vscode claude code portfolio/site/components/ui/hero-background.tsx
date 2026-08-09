@@ -1,10 +1,16 @@
+import { MeshGradientBackground } from "@/components/ui/mesh-gradient-background";
+
 // Layered, blurred accent glows standing in for a flat black hero background.
-// Kept to the single lime accent (no new colors) and to ambient drift only —
-// decorative motion is allowed here because it's a rare, first-impression element.
+// Motion is kept to ambient drift only — decorative motion is allowed here
+// because it's a rare, first-impression element. The mesh gradient sits at
+// very low opacity, purely as texture — the lime accent still carries the
+// page's actual color identity.
 export function HeroBackground() {
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
       <div className="absolute inset-0 bg-[var(--bg)]" />
+
+      <MeshGradientBackground className="absolute inset-0 h-full w-full opacity-[0.10]" />
 
       <div
         className="hero-beam -top-1/3 -left-1/4 h-[70vh] w-[70vh]"

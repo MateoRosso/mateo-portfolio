@@ -6,7 +6,7 @@
   --fg-muted: rgba(245, 245, 242, 0.62);
   --fg-subtle: rgba(245, 245, 242, 0.38);
 
-  --accent: #a3e635;
+  --accent: #9dff00;
   --accent-strong: #b6f04a;
   --accent-soft: rgba(163, 230, 53, 0.14);
   --accent-border: rgba(163, 230, 53, 0.35);
@@ -31,7 +31,7 @@
 html {
   scroll-behavior: smooth;
   color-scheme: dark;
-  scrollbar-gutter: stable both-edges;
+  scrollbar-gutter: stable;
 }
 
 body {
@@ -53,6 +53,12 @@ a:focus-visible {
   outline-offset: 3px;
   border-radius: 4px;
 }
+
+/* Custom component classes live in Tailwind's `components` layer so that
+   utilities (`hidden`, `sm:flex`, etc.) always win when combined on the same
+   element — plain CSS here would land after Tailwind's utility layer in the
+   compiled stylesheet and silently out-cascade same-specificity utilities. */
+@layer components {
 
 /* ---- Typography ---- */
 /* Tracking/leading are size-specific per Apple's typography rules — never one
@@ -141,6 +147,8 @@ a:focus-visible {
   border-color: var(--border-hover);
 }
 
+} /* end @layer components */
+
 /* ---- Image materialize ---- */
 /* Blur bridges the gap between "not loaded" and "loaded" so the image feels
    like it resolves into focus rather than popping in. */
@@ -185,5 +193,25 @@ a:focus-visible {
   .hero-beam {
     animation: none;
     opacity: 0.6;
+  }
+}
+
+/* ---- Process connector ---- */
+/* Dashed path linking the pinned process notes — same decorative tier as the
+   hero beam: freeze under reduced motion. */
+
+@keyframes dash-flow {
+  to {
+    stroke-dashoffset: -140;
+  }
+}
+
+.process-path {
+  animation: dash-flow 3s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .process-path {
+    animation: none;
   }
 }
